@@ -21,8 +21,24 @@ public class Character {
         return direction;
     }
 
+    public void rotateRight(){
+        if (this.direction == 'E') this.direction = 'S';
+        else if (this.direction == 'S') this.direction = 'W';
+        else if (this.direction == 'W') this.direction = 'N';
+        else this.direction = 'E';
+    }
+    public void rotateLeft(){
+        if (this.direction == 'E') this.direction = 'N';
+        else if (this.direction == 'N') this.direction = 'W';
+        else if (this.direction == 'W') this.direction = 'S';
+        else this.direction = 'E';
+    }
+
     public void moveForward() {
-        this.y++;
+        if (this.direction == 'E') this.y++;
+        else if (this.direction == 'W') this.y--;
+        else if (this.direction == 'N') this.x--;
+        else this.x++;
     }
 
 }

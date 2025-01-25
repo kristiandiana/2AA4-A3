@@ -18,7 +18,23 @@ public class Instructor {
                 character.moveForward();
             }
         }
-
+        // hardcoded traversal (shows left and right rotation functionality)
+        else if (maze.getFilePath().equals("./examples/tiny.maz.txt")){
+            for (int i = 0; i < 3; i++){
+                maze.walkOnCell(character.getX(), character.getY());
+                character.moveForward();
+            }
+            character.rotateLeft();
+            for (int i = 0; i < 4; i++){
+                maze.walkOnCell(character.getX(), character.getY());
+                character.moveForward();
+            }
+            character.rotateRight();
+            for (int i = 0; i < 3; i++){
+                maze.walkOnCell(character.getX(), character.getY());
+                character.moveForward();
+            }
+        }
 
 
     }
