@@ -36,6 +36,12 @@ public class Main {
                 logger.info("**** Placing character on the maze entry point ");
                 Instructor instructor = new Instructor(maze); // create a new Instructor object
 
+                logger.info("**** Computing path");
+                logger.info("PATH NOT COMPUTED");
+                instructor.exploreMaze();
+                maze.displayMaze();
+                logger.info("** End of MazeRunner");
+
             }
             else { // no -i flag used in program call
                 logger.error("No input file provided, please use the -i flag to specify maze filepath");
@@ -45,8 +51,5 @@ public class Main {
             logger.error("Error... unable to parse CL arguments! Please use the provided flags ONLY! " + e.getMessage());
         }
 
-        logger.info("**** Computing path");
-        logger.info("PATH NOT COMPUTED");
-        logger.info("** End of MazeRunner");
     }
 }

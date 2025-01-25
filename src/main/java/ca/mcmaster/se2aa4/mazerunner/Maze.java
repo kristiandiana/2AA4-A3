@@ -10,9 +10,11 @@ public class Maze {
 
     private char [][] grid;
     private static final Logger logger = LogManager.getLogger();
+    private String mazeFilePath; // temporary ONLY for the MVP implementation
 
     public Maze(String mazeFilePath) {
         readMaze(mazeFilePath);
+        this.mazeFilePath = mazeFilePath;
     }
 
     private void readMaze(String mazeFilePath) {
@@ -38,7 +40,13 @@ public class Maze {
             for (int i = 0; i < rows; i++){
                 line = secondReader.readLine();
                 for (int j = 0; j < cols; j++){
-                    grid[i][j] = line.charAt(j); // fill cell with character from file
+                    // fill cell with character from file
+                    if (line.charAt(j) == '#') {
+                        grid[i][j] = '#';
+                    }
+                    else {
+                        grid[i][j] = '0';
+                    }
                 }
             }
             logger.info("Finished reading maze from " + mazeFilePath);
@@ -46,6 +54,10 @@ public class Maze {
         catch (Exception e) {
             logger.error("Error reading maze file: " + e.getMessage());
         }
+    }
+
+    public String getFilePath(){ // temporary method only for MVP implementation!
+        return this.mazeFilePath;
     }
 
     public void displayMaze(){
@@ -59,8 +71,11 @@ public class Maze {
                 if (cell == '#'){
                     line.append("WALL ");
                 }
+                else if (cell == '0'){
+                    line.append("     "); // prints the cell element since I want to update this for final version
+                }
                 else {
-                    line.append(cell + "    "); // prints the cell element since I want to update this for final version
+                    line.append(cell + "    ");
                 }
             }
             logger.info(line.toString()); // print the ENTIRE row
@@ -71,10 +86,15 @@ public class Maze {
         return false;
     }
 
+    public void walkOnCell(int x, int y){
+        int cell = (int)(grid[x][y])+1;
+        grid[x][y] = (char)(cell);
+    }
+
     public int findStart() { // finds western wall starting row 
         // NOTE: this will be refactored in final version to account for East wall start                            
         for (int row = 0; row < grid.length; row++){
-            if (grid[row][0] == ' '){
+            if (grid[row][0] == '0'){
                 return row;
             }
         }

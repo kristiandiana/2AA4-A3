@@ -22,7 +22,7 @@ public class Character {
     }
 
     public void moveForward() {
-        // based on the current direction, update x or y accordingly
+        this.y++;
     }
 
 }

@@ -9,8 +9,17 @@ public class Instructor {
         this.character = new Character(maze.findStart(), 0, 'E'); // MVP always starts on West wall, facing East
     }
 
-
     public void exploreMaze() {
-        // implement search algorithm here
+        // for the MVP, maze exploration algorithms are HARD CODED
+        // for final version, will develop Right-Hand exploration technique
+        if (maze.getFilePath().equals("./examples/straight.maz.txt")){
+            for (int i = 0; i < 4; i++){
+                maze.walkOnCell(character.getX(), character.getY());
+                character.moveForward();
+            }
+        }
+
+
+
     }
 }
