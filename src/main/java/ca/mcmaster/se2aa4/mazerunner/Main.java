@@ -37,8 +37,8 @@ public class Main {
                 Instructor instructor = new Instructor(maze); // create a new Instructor object
 
                 logger.info("**** Computing path");
-                logger.info("PATH NOT COMPUTED");
-                instructor.exploreMaze();
+                String canonical = instructor.exploreMaze();
+                logger.info("CANONICAL PATH COMPUTED: " + canonical);
                 maze.displayMaze();
                 logger.info("** End of MazeRunner");
 
