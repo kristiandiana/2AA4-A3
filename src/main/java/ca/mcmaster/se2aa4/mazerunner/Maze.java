@@ -71,7 +71,13 @@ public class Maze {
         return false;
     }
 
-    public int findStart() { // finds western wall starting rownnbnvcb                                
+    public int findStart() { // finds western wall starting row 
+        // NOTE: this will be refactored in final version to account for East wall start                            
+        for (int row = 0; row < grid.length; row++){
+            if (grid[row][0] == ' '){
+                return row;
+            }
+        }
         return 0;
     }
 

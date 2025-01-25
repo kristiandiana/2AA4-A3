@@ -30,8 +30,12 @@ public class Main {
                 String mazeFilePath = commands.getOptionValue("i"); // retrieve filepath from -i flag
                 logger.info("**** Reading the maze from file " + mazeFilePath);
 
-                Maze maze = new Maze(mazeFilePath);
+                Maze maze = new Maze(mazeFilePath); // create a new Maze object
                 maze.displayMaze();
+
+                logger.info("**** Placing character on the maze entry point ");
+                Instructor instructor = new Instructor(maze); // create a new Instructor object
+
             }
             else { // no -i flag used in program call
                 logger.error("No input file provided, please use the -i flag to specify maze filepath");

@@ -11,6 +11,16 @@ public class Character {
         this.direction = startDirection;
     }
 
+    public int getX(){
+        return x;
+    }
+    public int getY(){
+        return y;
+    }
+    public char getDirection(){
+        return direction;
+    }
+
     public void moveForward() {
         // based on the current direction, update x or y accordingly
     }
