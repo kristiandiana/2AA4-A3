@@ -30,24 +30,8 @@ public class Main {
                 String mazeFilePath = commands.getOptionValue("i"); // retrieve filepath from -i flag
                 logger.info("**** Reading the maze from file " + mazeFilePath);
 
-                try {
-
-                    BufferedReader reader = new BufferedReader(new FileReader(mazeFilePath));
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        for (int idx = 0; idx < line.length(); idx++) {
-                            if (line.charAt(idx) == '#') {
-                                logger.trace("WALL ");
-                            } else if (line.charAt(idx) == ' ') {
-                                logger.trace("PASS ");
-                            }
-                        }
-                        logger.trace(System.lineSeparator());
-                    }
-                }
-                catch (Exception e){ // filepath given but doesn't exist
-                    logger.error("Error... unable to read the maze file: " + e.getMessage());
-                }
+                Maze maze = new Maze(mazeFilePath);
+                maze.displayMaze();
             }
             else { // no -i flag used in program call
                 logger.error("No input file provided, please use the -i flag to specify maze filepath");
