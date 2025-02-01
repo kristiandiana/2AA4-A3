@@ -20,6 +20,7 @@ public class Main {
         // define possible command line options
         Options clOptions = new Options();
         clOptions.addOption("i", "input", true, "Maze input filepath"); // -i flag
+        clOptions.addOption("p", "input", true, "Path for validation"); // -p flag
 
         try {
 
@@ -34,11 +35,34 @@ public class Main {
                 maze.displayMaze();
 
                 logger.info("**** Placing character on the maze entry point ");
-                Instructor instructor = new Instructor(maze); // create a new Instructor object
+                Instructor instructor = new Instructor(maze, true); // startWest = true; i.e. starting on the west wall 
 
-                logger.info("**** Computing path");
-                String canonical = instructor.exploreMaze();
-                logger.info("CANONICAL PATH COMPUTED: " + canonical);
+                if (commands.hasOption("p")){
+                    String validationPath = commands.getOptionValue("p");
+                    logger.info("**** Validating path beginning from Western wall");
+                    boolean res = instructor.validatePath(validationPath);
+                    if (res) {
+                        logger.info("**** Successfully traversed maze starting from Western wall");
+                    }
+                    else {
+                        maze = new Maze(mazeFilePath); // Reset the maze to its original state
+                        instructor = new Instructor(maze, false); // startWest = false; i.e. starting on the east wall
+                        res = instructor.validatePath(validationPath);
+                        if (res){
+                            logger.info("**** Successfully traversed maze starting from Eastern wall");
+                        }
+                        else {
+                            logger.info("**** Inputted path is not valid starting from either the East or West wall.");
+                            maze = new Maze(mazeFilePath); // Reset the maze to its original state
+                        }
+                    }
+                }
+                else {
+                    logger.info("**** Computing path");
+                    String canonical = instructor.exploreMaze();
+                    logger.info("CANONICAL PATH COMPUTED: " + canonical);
+                }
+
                 maze.displayMaze();
                 logger.info("** End of MazeRunner");
 

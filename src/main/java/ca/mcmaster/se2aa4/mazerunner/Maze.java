@@ -60,6 +60,10 @@ public class Maze {
         return this.mazeFilePath;
     }
 
+    public int getNumCols(){
+        return this.grid[0].length;
+    }
+
     public void displayMaze(){
         char cell;
         logger.info("Displaying maze");
