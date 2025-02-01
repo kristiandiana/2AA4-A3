@@ -91,10 +91,13 @@ public class Maze {
         grid[x][y] = (char)(cell);
     }
 
-    public int findStart() { // finds western wall starting row 
+    public int findStart(boolean west) { // finds western wall starting row 
         // NOTE: this will be refactored in final version to account for East wall start                            
+        int col;
+        if (west) col = 0;
+        else col = grid[0].length - 1;
         for (int row = 0; row < grid.length; row++){
-            if (grid[row][0] == '0'){
+            if (grid[row][col] == '0'){
                 return row;
             }
         }

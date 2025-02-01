@@ -21,6 +21,10 @@ public class Character {
         return direction;
     }
 
+    public void setDirection(char newDirection){
+        this.direction = newDirection;
+    }
+
     public void rotateRight(){
         if (this.direction == 'E') this.direction = 'S';
         else if (this.direction == 'S') this.direction = 'W';

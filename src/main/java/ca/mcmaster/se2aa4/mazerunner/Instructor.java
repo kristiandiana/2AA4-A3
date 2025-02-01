@@ -7,7 +7,7 @@ public class Instructor {
 
     public Instructor (Maze maze){
         this.maze = maze;
-        this.character = new Character(maze.findStart(), 0, 'E'); // MVP always starts on West wall, facing East
+        this.character = new Character(maze.findStart(true), 0, 'E'); // MVP always starts on West wall, facing East
         this.canonical = new StringBuilder();
     }
 
