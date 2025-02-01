@@ -67,6 +67,7 @@ public class Maze {
     public void displayMaze(){
         char cell;
         logger.info("Displaying maze");
+        System.out.println("Current maze state:");
         StringBuilder line;
         for (int row = 0; row < grid.length; row++){
             line = new StringBuilder(); // used to build up the output for each row
@@ -85,7 +86,7 @@ public class Maze {
                     line.append(cell + "    ");
                 }
             }
-            logger.info(line.toString()); // print the ENTIRE row
+            System.out.println(line.toString()); // print the ENTIRE row
         }
     }
 

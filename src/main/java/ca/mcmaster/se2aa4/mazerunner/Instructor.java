@@ -45,7 +45,7 @@ public class Instructor {
         else if (instruction == 'L'){
             character.rotateLeft();
         }
-        else {
+        else if (instruction != ' '){
             logger.trace("Instruction, '" + instruction + "', is not valid. Only use F, R, or L.");
         }
     }

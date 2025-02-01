@@ -61,10 +61,11 @@ public class Main {
                     logger.info("**** Computing path");
                     instructor.exploreMaze();
                     String canonical = instructor.getCanonical();
-                    logger.info("CANONICAL PATH COMPUTED: " + canonical);
+                    System.out.println("\nCANONICAL PATH COMPUTED: " + canonical);
                 }
                 String factorized = instructor.getFactorized();
-                logger.info("FACTORIZED PATH COMPUTED: " + factorized);
+                System.out.println("\nFACTORIZED PATH COMPUTED: " + factorized + "\n");
+                System.out.println("Note: '@@' represents the start cell, and each cell represents the number of times it was walked on");
                 maze.displayMaze();
                 logger.info("** End of MazeRunner");
 
