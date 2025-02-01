@@ -87,7 +87,7 @@ public class Maze {
     }
 
     public boolean isWall(int x, int y){
-        return false;
+        return this.grid[x][y] == '#';
     }
 
     public void walkOnCell(int x, int y){

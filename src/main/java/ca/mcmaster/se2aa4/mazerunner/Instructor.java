@@ -103,47 +103,32 @@ public class Instructor {
     }
 
     public void exploreMaze() {
-        // for the MVP, maze exploration algorithms are HARD CODED
-        // for final version, will develop Right-Hand exploration technique
-        if (maze.getFilePath().equals("./examples/straight.maz.txt")){
-            for (int i = 0; i < 4; i++){
-                maze.walkOnCell(character.getX(), character.getY());
+        // IMPLEMENTING RIGHT HAND EXPLORATION TECHNIQUE
+        int [] coords;
+        boolean isWall;
+
+        while (character.getX() != this.endRow || character.getY() != this.endCol){
+            coords = character.getRightCoords();
+            isWall = maze.isWall(coords[0], coords[1]);
+            if (!isWall){
+                character.rotateRight();
+                canonical.append('R');
                 character.moveForward();
-                this.canonical.append('F');
+                maze.walkOnCell(character.getX(), character.getY());
+                canonical.append('F');
             }
-        }
-        // hardcoded traversal (shows left and right rotation functionality)
-        else if (maze.getFilePath().equals("./examples/tiny.maz.txt")){
-            for (int i = 0; i < 3; i++){
-                maze.walkOnCell(character.getX(), character.getY());
-                character.moveForward();
-                this.canonical.append('F');
-            }
-            character.rotateLeft();
-            character.rotateLeft();
-            maze.walkOnCell(character.getX(), character.getY());
-            character.moveForward();
-            maze.walkOnCell(character.getX(), character.getY());
-            character.moveForward();
-            character.rotateLeft();
-            character.rotateLeft();
-            maze.walkOnCell(character.getX(), character.getY());
-            character.moveForward();
-            maze.walkOnCell(character.getX(), character.getY());
-            character.moveForward();
-            character.rotateLeft();
-            this.canonical.append(" L ");
-            for (int i = 0; i < 4; i++){
-                maze.walkOnCell(character.getX(), character.getY());
-                character.moveForward();
-                this.canonical.append('F');
-            }
-            character.rotateRight();
-            this.canonical.append(" R ");
-            for (int i = 0; i < 3; i++){
-                maze.walkOnCell(character.getX(), character.getY());
-                character.moveForward();
-                this.canonical.append("F");
+            else {
+                coords = character.getForwardCoords();
+                isWall = maze.isWall(coords[0], coords[1]);
+                if (isWall){
+                    character.rotateLeft();
+                    canonical.append('L');
+                }
+                else {
+                    character.moveForward();
+                    canonical.append('F');
+                    maze.walkOnCell(character.getX(), character.getY());
+                }
             }
         }
 

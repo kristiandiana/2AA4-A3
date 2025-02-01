@@ -11,6 +11,49 @@ public class Character {
         this.direction = startDirection;
     }
 
+    public int [] getRightCoords() {
+        int [] coords = new int [2];
+        if (this.direction == 'E'){
+            coords[0] = this.x+1;
+            coords[1] = this.y;
+        }
+        else if (this.direction == 'S'){
+            coords[0] = this.x;
+            coords[1] = this.y-1;
+        }
+        else if (this.direction == 'W') {
+            coords[0] = this.x-1;
+            coords[1] = this.y;
+        }
+        else {
+            coords[0] = this.x;
+            coords[1] = this.y+1;
+        }
+        return coords;
+    }
+
+    
+    public int [] getForwardCoords() {
+        int [] coords = new int [2];
+        if (this.direction == 'E'){
+            coords[0] = this.x;
+            coords[1] = this.y+1;
+        }
+        else if (this.direction == 'S'){
+            coords[0] = this.x+1;
+            coords[1] = this.y;
+        }
+        else if (this.direction == 'W') {
+            coords[0] = this.x;
+            coords[1] = this.y-1;
+        }
+        else {
+            coords[0] = this.x-1;
+            coords[1] = this.y;
+        }
+        return coords;
+    }
+
     public int getX(){
         return x;
     }
