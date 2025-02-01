@@ -48,6 +48,48 @@ public class Instructor {
         }
     }
 
+    public String getCanonical(){
+        return this.canonical.toString();
+    }
+
+    public String getFactorized() {
+        if (this.canonical.length() == 0) {
+            return ""; // If canonical is empty, return an empty string
+        }
+
+        StringBuilder factorized = new StringBuilder();
+        char currentChar = this.canonical.charAt(0);
+        int count = 1;
+
+        for (int i = 1; i < this.canonical.length(); i++) {
+            char nextChar = this.canonical.charAt(i);
+
+            if (nextChar == currentChar) {
+                count++; // Increment count if the next character is the same
+            } else {
+                // Append the current character and its count (if count > 1)
+                if (count > 1) {
+                    factorized.append(count).append(currentChar).append(" ");
+                } else {
+                    factorized.append(currentChar).append(" ");
+                }
+                // Reset for the next character
+                currentChar = nextChar;
+                count = 1;
+            }
+        }
+
+        // Append the last character and its count
+        if (count > 1) {
+            factorized.append(count).append(currentChar);
+        } else {
+            factorized.append(currentChar);
+        }
+
+        return factorized.toString().trim(); // Trim any trailing spaces
+    }
+
+
     public boolean validatePath(String path){
         for (int i = 0; i < path.length(); i++){
             applyInstruction(path.charAt(i));
@@ -60,7 +102,7 @@ public class Instructor {
         }
     }
 
-    public String exploreMaze() {
+    public void exploreMaze() {
         // for the MVP, maze exploration algorithms are HARD CODED
         // for final version, will develop Right-Hand exploration technique
         if (maze.getFilePath().equals("./examples/straight.maz.txt")){
@@ -104,7 +146,6 @@ public class Instructor {
                 this.canonical.append("F");
             }
         }
-        return this.canonical.toString();
 
     }
 }

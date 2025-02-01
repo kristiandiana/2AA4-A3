@@ -59,10 +59,12 @@ public class Main {
                 }
                 else {
                     logger.info("**** Computing path");
-                    String canonical = instructor.exploreMaze();
+                    instructor.exploreMaze();
+                    String canonical = instructor.getCanonical();
                     logger.info("CANONICAL PATH COMPUTED: " + canonical);
                 }
-
+                String factorized = instructor.getFactorized();
+                logger.info("FACTORIZED PATH COMPUTED: " + factorized);
                 maze.displayMaze();
                 logger.info("** End of MazeRunner");
 
