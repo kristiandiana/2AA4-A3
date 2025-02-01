@@ -10,11 +10,9 @@ public class Maze {
 
     private char [][] grid;
     private static final Logger logger = LogManager.getLogger();
-    private String mazeFilePath; // temporary ONLY for the MVP implementation
 
     public Maze(String mazeFilePath) {
         readMaze(mazeFilePath);
-        this.mazeFilePath = mazeFilePath;
     }
 
     private void readMaze(String mazeFilePath) {
@@ -56,10 +54,6 @@ public class Maze {
         }
     }
 
-    public String getFilePath(){ // temporary method only for MVP implementation!
-        return this.mazeFilePath;
-    }
-
     public int getNumCols(){
         return this.grid[0].length;
     }
@@ -90,15 +84,15 @@ public class Maze {
         }
     }
 
-    public void setStart(int x, int y){
+    public void setStart(int x, int y){ // sets the start cell to a special character
         this.grid[x][y] = '&';
     }
 
-    public boolean isWall(int x, int y){
+    public boolean isWall(int x, int y){ // boolean determines if a cell is a wall
         return this.grid[x][y] == '#';
     }
 
-    public void walkOnCell(int x, int y){
+    public void walkOnCell(int x, int y){ // updates the counter of each cell based on number of times it was "walked on"
         int cell = (int)(grid[x][y])+1;
         grid[x][y] = (char)(cell);
     }

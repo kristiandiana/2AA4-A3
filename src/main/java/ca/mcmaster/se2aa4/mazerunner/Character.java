@@ -11,6 +11,7 @@ public class Character {
         this.direction = startDirection;
     }
 
+    // depending on currently facing direction, determine the coordinates of the cell to the right of the character
     public int [] getRightCoords() {
         int [] coords = new int [2];
         if (this.direction == 'E'){
@@ -32,7 +33,7 @@ public class Character {
         return coords;
     }
 
-    
+    // depending on the currently facing direction, determine the coords of the cell directly in front of the character
     public int [] getForwardCoords() {
         int [] coords = new int [2];
         if (this.direction == 'E'){
@@ -54,6 +55,9 @@ public class Character {
         return coords;
     }
 
+
+    // *** GETTERS & SETTERS ***
+
     public int getX(){
         return x;
     }
@@ -67,6 +71,9 @@ public class Character {
     public void setDirection(char newDirection){
         this.direction = newDirection;
     }
+
+    
+    // *** MOVEMENT METHODS ***
 
     public void rotateRight(){
         if (this.direction == 'E') this.direction = 'S';

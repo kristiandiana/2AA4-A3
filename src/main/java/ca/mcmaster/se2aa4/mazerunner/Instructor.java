@@ -20,7 +20,7 @@ public class Instructor {
         if (startWest) startCol = 0;
         else startCol = maze.getNumCols() - 1;
 
-        maze.setStart(startRow, startCol);
+        maze.setStart(startRow, startCol); // special character updated in maze
 
         char startDirection;
         if (startWest) startDirection = 'E';
@@ -28,11 +28,14 @@ public class Instructor {
 
         this.character = new Character(startRow, startCol, startDirection); // MVP always starts on West wall, facing East
         this.canonical = new StringBuilder();
+
+        // since the maze is undirected, the end row can be found by assuming we are starting from the opposite wall
         this.endRow = maze.findStart(!startWest);
         if (startWest) this.endCol = maze.getNumCols() - 1;
         else this.endCol = 0;
     }
 
+    // applyInstruction used to validate inputted path step-by-step
     public void applyInstruction(char instruction){
         this.canonical.append(instruction);
         if (instruction == 'F'){
@@ -91,11 +94,12 @@ public class Instructor {
         return factorized.toString().trim(); // Trim any trailing spaces
     }
 
-
+    // checks if input path, with -p flag, is valid
     public boolean validatePath(String path){
         for (int i = 0; i < path.length(); i++){
             applyInstruction(path.charAt(i));
         }
+        // if doesn't end up in the end cell, then return false
         if (character.getX() == this.endRow && character.getY() == this.endCol){
             return true;
         }
@@ -112,7 +116,9 @@ public class Instructor {
         while (character.getX() != this.endRow || character.getY() != this.endCol){
             coords = character.getRightCoords();
             isWall = maze.isWall(coords[0], coords[1]);
-            if (!isWall){
+            // 3 CASES  
+            if (!isWall){  // NOT A WALL ON THE RIGHT
+                // turns right and moves forwards
                 character.rotateRight();
                 canonical.append('R');
                 character.moveForward();
@@ -122,11 +128,11 @@ public class Instructor {
             else {
                 coords = character.getForwardCoords();
                 isWall = maze.isWall(coords[0], coords[1]);
-                if (isWall){
+                if (isWall){ // IS A WALL ON THE RIGHT, AND IN FRONT
                     character.rotateLeft();
                     canonical.append('L');
                 }
-                else {
+                else { // IS A WALL ON THE RIGHT, BUT NOT IN FRONT 
                     character.moveForward();
                     canonical.append('F');
                     maze.walkOnCell(character.getX(), character.getY());

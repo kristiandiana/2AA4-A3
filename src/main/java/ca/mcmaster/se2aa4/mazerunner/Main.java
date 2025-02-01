@@ -33,16 +33,17 @@ public class Main {
 
                 Maze maze = new Maze(mazeFilePath); // create a new Maze object
                 maze.displayMaze();
-
                 logger.info("**** Placing character on the maze entry point ");
                 Instructor instructor = new Instructor(maze, true); // startWest = true; i.e. starting on the west wall 
 
                 if (commands.hasOption("p")){
+                    System.out.println();
                     String validationPath = commands.getOptionValue("p");
                     logger.info("**** Validating path beginning from Western wall");
                     boolean res = instructor.validatePath(validationPath);
                     if (res) {
                         logger.info("**** Successfully traversed maze starting from Western wall");
+                        System.out.println("Path is valid starting from the Western wall");
                     }
                     else {
                         maze = new Maze(mazeFilePath); // Reset the maze to its original state
@@ -50,9 +51,11 @@ public class Main {
                         res = instructor.validatePath(validationPath);
                         if (res){
                             logger.info("**** Successfully traversed maze starting from Eastern wall");
+                            System.out.println("Path is valid starting from the Eastern wall.");
                         }
                         else {
                             logger.info("**** Inputted path is not valid starting from either the East or West wall.");
+                            System.out.println("Path is not valid starting from either the Eastern or Western wall.");
                             maze = new Maze(mazeFilePath); // Reset the maze to its original state
                         }
                     }
