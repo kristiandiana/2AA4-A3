@@ -20,6 +20,8 @@ public class Instructor {
         if (startWest) startCol = 0;
         else startCol = maze.getNumCols() - 1;
 
+        maze.setStart(startRow, startCol);
+
         char startDirection;
         if (startWest) startDirection = 'E';
         else startDirection = 'W';
@@ -34,8 +36,8 @@ public class Instructor {
     public void applyInstruction(char instruction){
         this.canonical.append(instruction);
         if (instruction == 'F'){
-            maze.walkOnCell(character.getX(), character.getY());
             character.moveForward();
+                        maze.walkOnCell(character.getX(), character.getY());
         }
         else if (instruction == 'R'){
             character.rotateRight();

@@ -75,6 +75,9 @@ public class Maze {
                 if (cell == '#'){
                     line.append("WALL ");
                 }
+                else if (cell == '&'){
+                    line.append(" @@  ");
+                }
                 else if (cell == '0'){
                     line.append("     "); // prints the cell element since I want to update this for final version
                 }
@@ -84,6 +87,10 @@ public class Maze {
             }
             logger.info(line.toString()); // print the ENTIRE row
         }
+    }
+
+    public void setStart(int x, int y){
+        this.grid[x][y] = '&';
     }
 
     public boolean isWall(int x, int y){
