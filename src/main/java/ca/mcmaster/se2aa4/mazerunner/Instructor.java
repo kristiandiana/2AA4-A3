@@ -40,7 +40,7 @@ public class Instructor {
         this.canonical.append(instruction);
         if (instruction == 'F'){
             character.moveForward();
-                        maze.walkOnCell(character.getX(), character.getY());
+            maze.walkOnCell(character.getX(), character.getY());
         }
         else if (instruction == 'R'){
             character.rotateRight();
