@@ -32,18 +32,18 @@ public class Main {
                 logger.info("**** Reading the maze from file " + mazeFilePath);
 
                 Maze maze = new Maze(mazeFilePath); // create a new Maze object
-                maze.displayMaze();
-                logger.info("**** Placing character on the maze entry point ");
+                //maze.displayMaze();
+                logger.info("**** Placing player on the maze entry point ");
                 Instructor instructor = new Instructor(maze, true); // startWest = true; i.e. starting on the west wall 
 
                 if (commands.hasOption("p")){
-                    System.out.println();
-                    String validationPath = commands.getOptionValue("p");
+                    String unprocessedValidationPath = commands.getOptionValue("p");
+                    String validationPath = instructor.factorizedToCanonical(unprocessedValidationPath);
                     logger.info("**** Validating path beginning from Western wall");
                     boolean res = instructor.validatePath(validationPath);
                     if (res) {
                         logger.info("**** Successfully traversed maze starting from Western wall");
-                        System.out.println("Path is valid starting from the Western wall");
+                        System.out.println("correct path");
                     }
                     else {
                         maze = new Maze(mazeFilePath); // Reset the maze to its original state
@@ -51,26 +51,24 @@ public class Main {
                         res = instructor.validatePath(validationPath);
                         if (res){
                             logger.info("**** Successfully traversed maze starting from Eastern wall");
-                            System.out.println("Path is valid starting from the Eastern wall.");
+                            System.out.println("correct path");
                         }
                         else {
                             logger.info("**** Inputted path is not valid starting from either the East or West wall.");
-                            System.out.println("Path is not valid starting from either the Eastern or Western wall.");
-                            maze = new Maze(mazeFilePath); // Reset the maze to its original state
+                            System.out.println("incorrect path");
                         }
                     }
                 }
                 else {
                     logger.info("**** Computing path");
                     instructor.exploreMaze();
-                    String canonical = instructor.getCanonical();
-                    System.out.println("\nCANONICAL PATH COMPUTED: " + canonical);
+
+                    String factorized = instructor.getFactorized();
+                    System.out.println(factorized);
+
+                    logger.info("** End of MazeRunner");
+
                 }
-                String factorized = instructor.getFactorized();
-                System.out.println("\nFACTORIZED PATH COMPUTED: " + factorized + "\n");
-                System.out.println("Note: '@@' represents the start cell, and each cell represents the number of times it was walked on");
-                maze.displayMaze();
-                logger.info("** End of MazeRunner");
 
             }
             else { // no -i flag used in program call
@@ -78,7 +76,8 @@ public class Main {
             }
         } 
         catch(Exception e) { // unexpected flag given; ex. -x flag
-            logger.error("Error... unable to parse CL arguments! Please use the provided flags ONLY! " + e.getMessage());
+            logger.info("Went out of the bounds of the maze!");
+            System.out.println("incorrect path");
         }
 
     }

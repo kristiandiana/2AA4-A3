@@ -4,8 +4,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Instructor {
+    
     private Maze maze;
-    private Character character;
+    private Player player;
+    private Strategy strategy;
+    private Executor executor;
+
     private StringBuilder canonical;
     private int endRow;
     private int endCol;
@@ -20,37 +24,29 @@ public class Instructor {
         if (startWest) startCol = 0;
         else startCol = maze.getNumCols() - 1;
 
-        maze.setStart(startRow, startCol); // special character updated in maze
+        maze.setStart(startRow, startCol); // special player updated in maze
 
         char startDirection;
         if (startWest) startDirection = 'E';
         else startDirection = 'W';
 
-        this.character = new Character(startRow, startCol, startDirection); // MVP always starts on West wall, facing East
+        this.player = new Player(startRow, startCol, startDirection); // MVP always starts on West wall, facing East
         this.canonical = new StringBuilder();
 
         // since the maze is undirected, the end row can be found by assuming we are starting from the opposite wall
         this.endRow = maze.findStart(!startWest);
         if (startWest) this.endCol = maze.getNumCols() - 1;
         else this.endCol = 0;
+
+        this.strategy = new Strategy(maze, this.player);
+        this.executor = new Executor(maze, this.player);
+
     }
 
     // applyInstruction used to validate inputted path step-by-step
     public void applyInstruction(char instruction){
         this.canonical.append(instruction);
-        if (instruction == 'F'){
-            character.moveForward();
-            maze.walkOnCell(character.getX(), character.getY());
-        }
-        else if (instruction == 'R'){
-            character.rotateRight();
-        }
-        else if (instruction == 'L'){
-            character.rotateLeft();
-        }
-        else if (instruction != ' '){
-            logger.trace("Instruction, '" + instruction + "', is not valid. Only use F, R, or L.");
-        }
+        this.executor.executeInstruction(instruction);
     }
 
     public String getCanonical(){
@@ -70,21 +66,21 @@ public class Instructor {
             char nextChar = this.canonical.charAt(i);
 
             if (nextChar == currentChar) {
-                count++; // Increment count if the next character is the same
+                count++; // Increment count if the next player is the same
             } else {
-                // Append the current character and its count (if count > 1)
+                // Append the current player and its count (if count > 1)
                 if (count > 1) {
-                    factorized.append(count).append(currentChar).append(" ");
+                    factorized.append(count).append(currentChar);
                 } else {
-                    factorized.append(currentChar).append(" ");
+                    factorized.append(currentChar);
                 }
-                // Reset for the next character
+                // Reset for the next player
                 currentChar = nextChar;
                 count = 1;
             }
         }
 
-        // Append the last character and its count
+        // Append the last player and its count
         if (count > 1) {
             factorized.append(count).append(currentChar);
         } else {
@@ -100,7 +96,7 @@ public class Instructor {
             applyInstruction(path.charAt(i));
         }
         // if doesn't end up in the end cell, then return false
-        if (character.getX() == this.endRow && character.getY() == this.endCol){
+        if (player.getX() == this.endRow && player.getY() == this.endCol){
             return true;
         }
         else {
@@ -110,35 +106,37 @@ public class Instructor {
 
     public void exploreMaze() {
         // IMPLEMENTING RIGHT HAND EXPLORATION TECHNIQUE
-        int [] coords;
-        boolean isWall;
+        while (player.getX() != this.endRow || player.getY() != this.endCol){ // continue until player reaches end cell
 
-        while (character.getX() != this.endRow || character.getY() != this.endCol){
-            coords = character.getRightCoords();
-            isWall = maze.isWall(coords[0], coords[1]);
-            // 3 CASES  
-            if (!isWall){  // NOT A WALL ON THE RIGHT
-                // turns right and moves forwards
-                character.rotateRight();
-                canonical.append('R');
-                character.moveForward();
-                maze.walkOnCell(character.getX(), character.getY());
-                canonical.append('F');
-            }
-            else {
-                coords = character.getForwardCoords();
-                isWall = maze.isWall(coords[0], coords[1]);
-                if (isWall){ // IS A WALL ON THE RIGHT, AND IN FRONT
-                    character.rotateLeft();
-                    canonical.append('L');
-                }
-                else { // IS A WALL ON THE RIGHT, BUT NOT IN FRONT 
-                    character.moveForward();
-                    canonical.append('F');
-                    maze.walkOnCell(character.getX(), character.getY());
-                }
-            }
+            char instruction = this.strategy.determineInstruction(); // get the next instruction to execute
+            applyInstruction(instruction); // apply the instruction to the player
+
         }
 
     }
+
+    public String factorizedToCanonical(String input) {
+        StringBuilder result = new StringBuilder();
+        StringBuilder currentFactor = new StringBuilder();
+
+        for (char c : input.toCharArray()) {
+            if (Character.isDigit(c)) {
+                currentFactor.append(c);  // build up the number (handles multi-digit)
+            } else if (c == 'F' || c == 'R' || c == 'L') {
+                int repeat = 1;  // default
+                if (currentFactor.length() > 0) {
+                    repeat = Integer.parseInt(currentFactor.toString());
+                    currentFactor.setLength(0);  // clear buffer
+                }
+                for (int i = 0; i < repeat; i++) {
+                    result.append(c);
+                }
+            } else {
+                throw new IllegalArgumentException("Invalid player in input: " + c);
+            }
+        }
+
+        return result.toString();
+    }
+
 }

@@ -5,14 +5,14 @@ import org.apache.logging.log4j.Logger;
 
 class Strategy {
     private Maze maze;
-    private Character character;
+    private Player player;
     private static final Logger logger = LogManager.getLogger(); // logger used to manage levels of output
     private int [] coords;
     private boolean isWall;
     private boolean inIntermediateState = false;
 
-    public Strategy (Maze maze, Character character){
-        this.character = character;
+    public Strategy (Maze maze, Player player){
+        this.player = player;
         this.maze = maze;
     }
 
@@ -22,7 +22,7 @@ class Strategy {
             return 'F';
         }
         // IMPLEMENTING RIGHT HAND EXPLORATION TECHNIQUE
-        coords = character.getRightCoords();
+        coords = player.getRightCoords();
         isWall = maze.isWall(coords[0], coords[1]);
         // 3 CASES  
         if (!isWall){  // NOT A WALL ON THE RIGHT
@@ -32,7 +32,7 @@ class Strategy {
             return 'R'; // Rotate right
         }
         else {
-            coords = character.getForwardCoords();
+            coords = player.getForwardCoords();
             isWall = maze.isWall(coords[0], coords[1]);
 
             if (isWall){ // IS A WALL ON THE RIGHT, AND IN FRONT

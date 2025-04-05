@@ -38,7 +38,7 @@ public class Maze {
             for (int i = 0; i < rows; i++){
                 line = secondReader.readLine();
                 for (int j = 0; j < cols; j++){
-                    // fill cell with character from file
+                    // fill cell with player from file
                     if (line.charAt(j) == '#') {
                         grid[i][j] = '#';
                     }
@@ -84,7 +84,7 @@ public class Maze {
         }
     }
 
-    public void setStart(int x, int y){ // sets the start cell to a special character
+    public void setStart(int x, int y){ // sets the start cell to a special player
         this.grid[x][y] = '&';
     }
 

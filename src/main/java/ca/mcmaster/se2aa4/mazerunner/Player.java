@@ -1,17 +1,17 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-public class Character {
+public class Player {
 
     private int x, y;
     private char direction;
 
-    public Character (int startX, int startY, char startDirection){
+    public Player (int startX, int startY, char startDirection){
         this.x = startX;
         this.y = startY;
         this.direction = startDirection;
     }
 
-    // depending on currently facing direction, determine the coordinates of the cell to the right of the character
+    // depending on currently facing direction, determine the coordinates of the cell to the right of the Player
     public int [] getRightCoords() {
         int [] coords = new int [2];
         if (this.direction == 'E'){
@@ -33,7 +33,7 @@ public class Character {
         return coords;
     }
 
-    // depending on the currently facing direction, determine the coords of the cell directly in front of the character
+    // depending on the currently facing direction, determine the coords of the cell directly in front of the Player
     public int [] getForwardCoords() {
         int [] coords = new int [2];
         if (this.direction == 'E'){

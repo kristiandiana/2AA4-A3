@@ -5,11 +5,11 @@ import org.apache.logging.log4j.Logger;
 
 class Executor {
     private Maze maze;
-    private Character character;
+    private Player player;
     private static final Logger logger = LogManager.getLogger(); // logger used to manage levels of output
 
-    public Executor (Maze maze, Character character){
-        this.character = character;
+    public Executor (Maze maze, Player player){
+        this.player = player;
         this.maze = maze;
     }
 
@@ -29,15 +29,15 @@ class Executor {
     }
 
     private void executeForward(){
-        character.moveForward();
-        maze.walkOnCell(character.getX(), character.getY());
+        player.moveForward();
+        maze.walkOnCell(player.getX(), player.getY());
     }
 
     private void executeRight(){
-        character.rotateRight();
+        player.rotateRight();
     }
 
     private void executeLeft(){
-        character.rotateLeft();
+        player.rotateLeft();
     }
 }
